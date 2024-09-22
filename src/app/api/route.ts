@@ -1,5 +1,5 @@
 import { vectorStore } from "@/services/database/vectorStore";
-import { parsePdfToDocument } from "@/services/parsePdfToDocument";
+import { parsePdfToDocument } from "@/utils/parsePdfToDocument";
 import { NextRequest } from "next/server";
 import { join } from "path";
 
