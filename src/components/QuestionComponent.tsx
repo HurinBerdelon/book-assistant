@@ -10,7 +10,8 @@ import {
 
 import { askQuestion } from "@/services/database/askQuestion";
 import { Message } from "@/types/Message";
-import { LoadingIcon } from "./LoadingIcon";
+import { LoadingIcon } from "./Icons/LoadingIcon";
+import { SendIcon } from "./Icons/SendIcon";
 
 interface QuestionComponentProps {
   setMessages: Dispatch<SetStateAction<Message[]>>;
@@ -33,32 +34,49 @@ export function QuestionComponent({
       ...prevMessages,
       { sender: "user", content: question },
     ]);
-    const answer = await askQuestion(question);
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { sender: "system", content: answer as string },
-    ]);
-    setQuestion("");
-    setIsLoading(false);
+    try {
+      const answer = await askQuestion(question);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: "system", content: answer as string },
+      ]);
+      setQuestion("");
+    } catch (error) {
+      console.error(error);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          sender: "system",
+          content:
+            "Something went wrong with your question, can you please try again?",
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <div>
       <form
         onSubmit={handleAskQuestion}
-        className="flex flex-col gap-4 items-center"
+        className="flex items-center bg-black border-2 border-zinc-800 m-1"
       >
         <textarea
-          className="text-zinc-300 bg-black rounded-sm w-80 h-20 border-[1px] border-transparent outline-none focus:border-zinc-800 ring-0 p-1 resize-none"
+          className="text-zinc-300 bg-black rounded-sm w-80 h-20 border-[1px] border-t-0 border-zinc-800 outline-none focus:border-zinc-800 ring-0 p-1 resize-none flex-1"
           value={question}
           onChange={handleChange}
         />
         <button
-          className="flex justify-center border-[1px] w-52 text-zinc-300 rounded-sm border-zinc-300 outline-none focus:border-zinc-400 focus:text-zinc-400 hover:border-zinc-400 hover:text-zinc-400"
+          className="flex  outline-none-fit px-4"
           type="submit"
           disabled={isLoading}
         >
-          {isLoading ? <LoadingIcon /> : "Enviar"}
+          {isLoading ? (
+            <LoadingIcon />
+          ) : (
+            <SendIcon className="fill-zinc-300 hover:fill-zinc-400 focus:fill-zinc-400" />
+          )}
         </button>
       </form>
     </div>

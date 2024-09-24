@@ -1,11 +1,11 @@
 import { Message } from "@/types/Message";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-interface ChatHistoryProps {
-  messages: Message[];
-}
+import { QuestionComponent } from "./QuestionComponent";
 
-export function ChatHistory({ messages }: Readonly<ChatHistoryProps>) {
+export function ChatBot() {
+  const [messages, setMessages] = useState<Message[]>([]);
+
   useEffect(() => {
     const element = document.getElementById("messages-ordered-list");
     if (element) {
@@ -28,8 +28,8 @@ export function ChatHistory({ messages }: Readonly<ChatHistoryProps>) {
             className={`
             ${
               message.sender === "system"
-                ? "text-start pr-8"
-                : "text-end pl-8 italic"
+                ? "text-start pr-8 italic"
+                : "text-end pl-8"
             }
             leading-5
             `}
@@ -38,6 +38,9 @@ export function ChatHistory({ messages }: Readonly<ChatHistoryProps>) {
           </li>
         ))}
       </ol>
+      <div>
+        <QuestionComponent setMessages={setMessages} />
+      </div>
     </div>
   );
 }
