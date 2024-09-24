@@ -60,23 +60,19 @@ export function QuestionComponent({
     <div>
       <form
         onSubmit={handleAskQuestion}
-        className="flex items-center bg-black border-2 border-zinc-800 m-1"
+        className="flex items-center bg-black border-2 border-zinc-800 m-1 h-20"
       >
         <textarea
-          className="text-zinc-300 bg-black rounded-sm w-80 h-20 border-[1px] border-t-0 border-zinc-800 outline-none focus:border-zinc-800 ring-0 p-1 resize-none flex-1"
+          className="text-zinc-300 bg-black rounded-sm w-80 h-full border-[1px] border-t-0 border-zinc-800 outline-none focus:border-zinc-800 ring-0 p-1 resize-none flex-1"
           value={question}
           onChange={handleChange}
         />
         <button
-          className="flex  outline-none-fit px-4"
+          className="outline-none px-4 h-full hover:bg-neutral-900 focus:bg-neutral-900"
           type="submit"
           disabled={isLoading}
         >
-          {isLoading ? (
-            <LoadingIcon />
-          ) : (
-            <SendIcon className="fill-zinc-300 hover:fill-zinc-400 focus:fill-zinc-400" />
-          )}
+          {isLoading ? <LoadingIcon /> : <SendIcon className="fill-zinc-300" />}
         </button>
       </form>
     </div>
